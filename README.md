@@ -8,3 +8,10 @@ Thus I had to modify the firmata image and (witch is actually what's being run o
 so I could get full points for the assignment. Anyway if you are also required to use pyFirmata2 or (for some reason) use it voluntarily. Here's a simple solution for adding support for sonars.
 
 
+## Important fucntions
+### sonar_config(`trigger_pin`, `echo_pin`)
+Sets up the sonar. 
+for now only one sonar is supported at a time
+
+### get_sonar_measurement()
+returns the latest measured distance in centimeters
