@@ -1,5 +1,6 @@
 from pyfirmata2 import Arduino
 import threading
+import sys
 import time
 
 class messageTypes :
@@ -17,8 +18,10 @@ class ArduinoWithSonar(Arduino) :
         self.__sonar_measurements : list[int] = []
         self.__sonar_capture_history_size = 1
         self.__fast_measurement = 0
+
         self.__sonarthread : threading.Thread = threading.Thread(target=self.__send_sonar_request)
         self.__sonarthread_running : bool = False
+        self.__sonarthread.daemon = True
 
     #add handler for incoming sonar data (overwritten)
     def _set_default_handlers(self) -> None:
@@ -63,12 +66,15 @@ class ArduinoWithSonar(Arduino) :
     #send message to firmata to trigger the sonar sensor
     def __send_sonar_request(self) -> None :
         while True :
-            #send_sysex is an arduino function that sends messages to firmata with data
-            #in this case we dont need to send additional data
-            self.send_sysex(messageTypes.SONAR_REQUEST,bytearray([])) # request sonar data from firmata
+            try :
+                #send_sysex is an arduino function that sends messages to firmata with data
+                #in this case we dont need to send additional data
+                self.send_sysex(messageTypes.SONAR_REQUEST,bytearray([])) # request sonar data from firmata
 
-            #turing this value lower will result in the system sending out request faster then it can handle incomming data
-            time.sleep(0.2)
+                #turing this value lower will result in the system sending out request faster then it can handle incomming data
+                time.sleep(0.2)
+            except KeyboardInterrupt:
+                sys.exit()
 
     def samplingOn(self, sample_interval=19):
         # enables sampling
