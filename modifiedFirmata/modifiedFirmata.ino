@@ -695,20 +695,22 @@ void sysexCallback(byte command, byte argc, byte *argv)
       }
 
     case SONAR_REQUEST:
-      int distance;
+      int distance = 0;
       float duration;
       
-      pinMode(triggerPin, OUTPUT);
-      pinMode(echoPin, INPUT);
-      
-      digitalWrite(triggerPin, LOW);
-      delayMicroseconds(2);
-      digitalWrite(triggerPin, HIGH);
-      delayMicroseconds(10);
-      digitalWrite(triggerPin, LOW);
-      
-      duration = pulseIn(echoPin, HIGH);
-      distance = (int) (duration*.0343)/2;
+      while (distance == 0) {
+        pinMode(triggerPin, OUTPUT);
+        pinMode(echoPin, INPUT);
+        
+        digitalWrite(triggerPin, LOW);
+        delayMicroseconds(2);
+        digitalWrite(triggerPin, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(triggerPin, LOW);
+        
+        duration = pulseIn(echoPin, HIGH);
+        distance = (int) (duration*.0343)/2;
+      }
     
       Firmata.write(START_SYSEX);
       Firmata.write(SONAR_RESPONSE);
