@@ -21,7 +21,10 @@ class ArduinoWithSonar(Arduino) :
 
         self.__sonarthread : threading.Thread = threading.Thread(target=self.__send_sonar_request)
         self.__sonarthread_running : bool = False
+
+        #setting this to true makes sure this thread also closes when the main thread exits
         self.__sonarthread.daemon = True
+
 
     #add handler for incoming sonar data (overwritten)
     def _set_default_handlers(self) -> None:
@@ -38,6 +41,7 @@ class ArduinoWithSonar(Arduino) :
              self.__sonar_measurements.pop(0)
         self.__sonar_measurements.append(distance)
 
+
     #sonar configuration (user called function)
     def sonar_config(self, trigger_pin : int, echo_pin : int, sonar_capture_history_size : int = 1) -> None:
         #setting the amounth of saved measures at a time
@@ -50,7 +54,7 @@ class ArduinoWithSonar(Arduino) :
         
         data : bytearray = bytearray([trigger_pin, echo_pin])
         self.send_sysex(messageTypes.SONAR_CONFIG, data)
-    
+
     #request for latest measurement (user called function)
     def get_sonar_measurement(self) -> int :
         #return mode off all saved measures
@@ -63,30 +67,32 @@ class ArduinoWithSonar(Arduino) :
         
         return max(self.__sonar_measurements, key=self.__sonar_measurements.count)
     
+
     #send message to firmata to trigger the sonar sensor
     def __send_sonar_request(self) -> None :
         time.sleep(2)
         while True :
-            try :
-                #send_sysex is an arduino function that sends messages to firmata with data
-                #in this case we dont need to send additional data
-                self.send_sysex(messageTypes.SONAR_REQUEST,bytearray([])) # request sonar data from firmata
+            #send_sysex is an arduino function that sends messages to firmata with data
+            #in this case we dont need to send additional data
+            self.send_sysex(messageTypes.SONAR_REQUEST,bytearray([])) # request sonar data from firmata
 
-                #turing this value lower will result in the system sending out request faster then it can handle incomming data
-                time.sleep(0.2)
-            except KeyboardInterrupt:
-                sys.exit()
+            #turing this value lower will result in the system sending out request faster then it can handle incomming data
+            time.sleep(0.1)
 
+    # #enables the itterator (overwritten)
     def samplingOn(self, sample_interval=19):
-        # enables sampling
         super().samplingOn(sample_interval)
+
+        #start the thread handling sending request for sonar data
         if not self.__sonarthread_running:
             self.__sonarthread.start()
             self.__sonarthread_running = True
 
+    # disables the iterator (overwritten)
     def samplingOff(self):
         super().samplingOff()
-        # disables sampling
+
+        #stop the thread handling sending request for sonar data
         if not self.__sonarthread:
             return
         if self.__sonarthread_running:
