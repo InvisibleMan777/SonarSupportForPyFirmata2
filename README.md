@@ -3,8 +3,8 @@
 This project is an extension of [pyFirmata2](https://github.com/berndporr/pyFirmata2/tree/master). A library that makes working an [Arduino](https://www.arduino.cc/) with python possible. 
 This extension adds to ability to receive data from a connected sonar ([HC-SR04](https://projecthub.arduino.cc/Isaac100/getting-started-with-the-hc-sr04-ultrasonic-sensor-7cabe1) specifically). 
 The cause of me starting this project is my university forcing me to use pyFirmata2 while also only giving me full point on an assignment if I use a sonar,
-something that.... surprise surprise this 700 line 1 class 0 documentation disappointment of a library whose code looks like a christmas tree does not support. 
-Thus I had to modify the firmata image (witch is actually what's being run on the arduino and sends data to the library) and add a supporting class on top of the library itself
+something that.... surprise surprise python and this 700 line 1 class 0 documentation disappointment of a library whose code looks like a christmas are too slow for. 
+Thus I had to modify the firmata image (witch is actually what's being run on the arduino and sends data to the library) and add a supporting class on top of the library itself so I could get measurements straight from the arduino itself.
 Anyway if you are also required to use pyFirmata2 or (for some reason) use it voluntarily. Here's a simple solution for adding support for sonars.
 
 
