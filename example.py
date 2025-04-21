@@ -10,13 +10,6 @@ board.samplingOn()
 
 curr_measure = 0
 
-button = board.get_pin("d:3:i")
-
-def pinCallback(value) :
-    print(value)
-
-button.register_callback(pinCallback)
-
 #setting up the sonar with the trigger- and echopin, plus capture hsitory size
 board.sonar_config(8, 9, sonar_capture_history_size=1)
 
