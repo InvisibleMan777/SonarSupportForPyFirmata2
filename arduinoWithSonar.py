@@ -1,4 +1,6 @@
 from pyfirmata2 import Arduino
+import threading
+import time
 
 class messageTypes :
     # outgoing messages to firmata
@@ -15,6 +17,8 @@ class ArduinoWithSonar(Arduino) :
         self.__sonar_measurements : list[int] = []
         self.__sonar_capture_history_size = 1
         self.__fast_measurement = 0
+        self.__sonarthread : threading.Thread = threading.Thread(target=self.__send_sonar_request)
+        self.__sonarthread_running : bool = False
 
     #add handler for incoming sonar data (overwritten)
     def _set_default_handlers(self) -> None:
@@ -58,13 +62,29 @@ class ArduinoWithSonar(Arduino) :
     
     #send message to firmata to trigger the sonar sensor
     def __send_sonar_request(self) -> None :
-        #send_sysex is an arduino function that sends messages to firmata with data
-        #in this case we dont need to send additional data
-        self.send_sysex(messageTypes.SONAR_REQUEST,bytearray([])) # request sonar data from firmata
+        while True :
+            #send_sysex is an arduino function that sends messages to firmata with data
+            #in this case we dont need to send additional data
+            self.send_sysex(messageTypes.SONAR_REQUEST,bytearray([])) # request sonar data from firmata
 
-    #send sonar_request every itteration (overwritten)
-    def iterate(self) -> None :
-        self.__send_sonar_request()
-        super().iterate()
+            #turing this value lower will result in the system sending out request faster then it can handle incomming data
+            time.sleep(0.1)
+
+    def samplingOn(self, sample_interval=19):
+        # enables sampling
+        super().samplingOn(sample_interval)
+        if not self.__sonarthread_running:
+            self.__sonarthread.start()
+            self.__sonarthread_running = True
+
+    def samplingOff(self):
+        super().samplingOff()
+        # disables sampling
+        if not self.__sonarthread:
+            return
+        if self.__sonarthread_running:
+            self.__sonarthread.stop()
+            self.__sonarthread.join()
+            self.__sonarthread_running = False
 
     
