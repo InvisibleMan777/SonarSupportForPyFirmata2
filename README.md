@@ -8,10 +8,20 @@ Thus I had to modify the firmata image (witch is actually what's being run on th
 so I could get full points for the assignment. Anyway if you are also required to use pyFirmata2 or (for some reason) use it voluntarily. Here's a simple solution for adding support for sonars.
 
 ## Usage
-- install [pyFirmata2](https://github.com/berndporr/pyFirmata2/tree/master)
+### hardware
+Sonar connection (from sonar to arduino)
+- connect vcc to 5v
+- connect gnd to gnd
+- connect echo and trigger to 2 digital pins
+### software
 - run the `modifiedFirmata.ino` file in the Arduino IDE on your arduino
-- Include the `ArduinoWithSonar` class from the `arduinoWithSonar.py` file in your project
-- initialise your board as an `ArduinoWithSonar` instead of an `Arduino`
+- pip install [pyFirmata2](https://github.com/berndporr/pyFirmata2/tree/master)
+- Include `util` from pyFirmata2 in your project
+- Include `ArduinoWithSonar` from the `arduinoWithSonar.py` file in your project
+- initialise your board as an `ArduinoWithSonar` object
+- initialise the iterator  (`it = util.Iterator(board)`)
+- start the iterator (`it.start()`)
+  - *NOTE: The iterator is needed to continuously measure with the sonar*
 - Have fun with the extra functionality
 - see `example.py` for further clarification
 
