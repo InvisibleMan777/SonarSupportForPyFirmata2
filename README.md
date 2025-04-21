@@ -27,9 +27,12 @@ Sonar connection (from sonar to arduino)
 
 ## Important functions
 
-### sonar_config(`trigger_pin`, `echo_pin`)
+### sonar_config(`trigger_pin`, `echo_pin`, `sonar_cature_history size (default=1`)
 Sets up the sonar. 
 for now only one sonar is supported at a time
+
+if a `sonar_capture_history_size` above 1 is set then the sonar will return the mode of the last `sonar_capture_history_size` measurements for greater accuracy.
+However this comes to the detriment of the speed of the updates
 
 ### get_sonar_measurement()
 returns the latest measured distance in centimeters
