@@ -39,9 +39,9 @@
 #define I2C_MAX_QUERIES             8
 #define I2C_REGISTER_NOT_SPECIFIED  -1
 
-static const int SONAR_REQUEST=     1;
-static const int SONAR_RESPONSE=    2;
-static const int SONAR_CONFIG=      0;
+static const int SONAR_REQUEST=     0x01;
+static const int SONAR_RESPONSE=    0x02;
+static const int SONAR_CONFIG=      0x00;
 
 int triggerPin=                     0;
 int echoPin=                        0;
