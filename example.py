@@ -1,5 +1,4 @@
 from arduinoWithSonar import ArduinoWithSonar
-from pyfirmata2 import util
 
 #set up board
 board = ArduinoWithSonar("COM5")
