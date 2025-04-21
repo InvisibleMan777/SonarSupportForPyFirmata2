@@ -1,5 +1,4 @@
 from pyfirmata2 import Arduino
-from statistics import median
 
 class messageTypes :
     # outgoing messages to firmata
