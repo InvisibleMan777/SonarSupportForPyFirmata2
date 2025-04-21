@@ -689,8 +689,10 @@ void sysexCallback(byte command, byte argc, byte *argv)
       break;
 
     case SONAR_CONFIG:
-      triggerPin = argv[0];
-      echoPin = argv[1];
+      if (argc > 1) { 
+        triggerPin = argv[0];
+        echoPin = argv[1];
+      }
 
     case SONAR_REQUEST:
       int distance;

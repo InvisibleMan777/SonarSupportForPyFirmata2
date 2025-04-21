@@ -5,7 +5,7 @@ from pyfirmata2 import util
 board = ArduinoWithSonar("COM5")
 
 #start iterator
-#NOTE this is needed to continuesly updating the sonar data
+#NOTE this is needed to continuesly update the sonar data
 it = util.Iterator(board)
 it.start()
 
