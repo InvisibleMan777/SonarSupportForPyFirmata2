@@ -41,6 +41,10 @@
 
 static const int SONAR_REQUEST=     1;
 static const int SONAR_RESPONSE=    2;
+static const int SONAR_CONFIG=      0;
+
+int triggerPin=                     0;
+int echoPin=                        0;
 
 // the minimum interval for sampling analog input
 #define MINIMUM_SAMPLING_INTERVAL   1
@@ -684,21 +688,22 @@ void sysexCallback(byte command, byte argc, byte *argv)
       }
       break;
 
+    case SONAR_CONFIG:
+      triggerPin = argv[0];
+      echoPin = argv[1];
+
     case SONAR_REQUEST:
-      const int trigPin = 8;
-      const int echoPin = 9;
-      
       int distance;
       float duration;
       
-      pinMode(trigPin, OUTPUT);
+      pinMode(triggerPin, OUTPUT);
       pinMode(echoPin, INPUT);
       
-      digitalWrite(trigPin, LOW);
+      digitalWrite(triggerPin, LOW);
       delayMicroseconds(2);
-      digitalWrite(trigPin, HIGH);
+      digitalWrite(triggerPin, HIGH);
       delayMicroseconds(10);
-      digitalWrite(trigPin, LOW);
+      digitalWrite(triggerPin, LOW);
       
       duration = pulseIn(echoPin, HIGH);
       distance = (int) (duration*.0343)/2;
