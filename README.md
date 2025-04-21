@@ -17,13 +17,10 @@ Sonar connection (from sonar to arduino)
 ### software
 - run the `modifiedFirmata.ino` file in the Arduino IDE on your arduino
 - pip install [pyFirmata2](https://github.com/berndporr/pyFirmata2/tree/master)
-- Include `util` from pyFirmata2 in your project
 - Include `ArduinoWithSonar` from the `arduinoWithSonar.py` file in your project
 - initialise your board as an `ArduinoWithSonar` object
-- initialise the iterator  (`it = util.Iterator(board)`)
-- start the iterator (`it.start()`)
-  - *NOTE: The iterator is needed to continuously measure with the sonar*
 - Have fun with the extra functionality
+  - *NOTE make sure sampling is on, otherwise the sonar wont work (`board.samplingOn`)*
 - see `example.py` for further clarification
 
 ## Important functions
