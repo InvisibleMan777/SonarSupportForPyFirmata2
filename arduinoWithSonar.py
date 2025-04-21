@@ -65,6 +65,7 @@ class ArduinoWithSonar(Arduino) :
     
     #send message to firmata to trigger the sonar sensor
     def __send_sonar_request(self) -> None :
+        time.sleep(2)
         while True :
             try :
                 #send_sysex is an arduino function that sends messages to firmata with data
