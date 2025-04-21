@@ -68,7 +68,7 @@ class ArduinoWithSonar(Arduino) :
             self.send_sysex(messageTypes.SONAR_REQUEST,bytearray([])) # request sonar data from firmata
 
             #turing this value lower will result in the system sending out request faster then it can handle incomming data
-            time.sleep(0.1)
+            time.sleep(0.2)
 
     def samplingOn(self, sample_interval=19):
         # enables sampling
