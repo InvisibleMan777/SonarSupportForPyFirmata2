@@ -697,6 +697,9 @@ void sysexCallback(byte command, byte argc, byte *argv)
     case SONAR_REQUEST:
       int distance = 0;
       float duration;
+      if (triggerPin==0 && echoPin==0) {
+        break;
+      }
       
       while (distance == 0) {
         pinMode(triggerPin, OUTPUT);
